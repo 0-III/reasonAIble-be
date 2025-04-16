@@ -20,6 +20,7 @@ import com.oops.reasonaible.service.dto.ExcuseCreateUpdateResponse;
 import com.oops.reasonaible.service.dto.ExcuseGetResponse;
 import com.oops.reasonaible.service.dto.ExcuseUpdateRequest;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class ExcuseController {
 
 	@PostMapping("")
 	public ResponseEntity<ApiResponse> createExcuse(
-		@RequestBody ExcuseCreateRequest excuseCreateRequest) {
+		@RequestBody @Valid ExcuseCreateRequest excuseCreateRequest) {
 		ExcuseCreateUpdateResponse excuse = excuseService.createExcuse(excuseCreateRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(
 			ApiResponse.of(201, excuse));
@@ -55,7 +56,7 @@ public class ExcuseController {
 	@PatchMapping("/{excuse_id}")
 	public ResponseEntity<ApiResponse<ExcuseCreateUpdateResponse>> updateExcuse(
 		@RequestParam Long excuseId,
-		@RequestBody ExcuseUpdateRequest excuseUpdateRequest) {
+		@RequestBody @Valid ExcuseUpdateRequest excuseUpdateRequest) {
 		ExcuseCreateUpdateResponse excuse = excuseService.updateExcuse(excuseId, excuseUpdateRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(
 			ApiResponse.of(200, excuse));
