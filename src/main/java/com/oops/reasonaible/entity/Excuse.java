@@ -46,7 +46,11 @@ public class Excuse {
 		this.modifiedExcuse = modifiedExcuse;
 	}
 
-	public static Excuse of(String excuse, String modifiedExcuse) {
-		return new Excuse(excuse, modifiedExcuse);
+	public static Excuse of(String excuse) {
+		return new Excuse(excuse, excuse);
+	}
+
+	public void update(String modifiedExcuse) {
+		this.modifiedExcuse = modifiedExcuse;
 	}
 }
