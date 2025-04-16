@@ -32,4 +32,10 @@ public class ExcuseService {
 			.map(ExcuseResponse::from)
 			.toList();
 	}
+
+	public ExcuseResponse getExcuse(Long excuseId) {
+		return excuseRepository.findById(excuseId)
+			.map(ExcuseResponse::from)
+			.orElseThrow(() -> new IllegalArgumentException("해당 ID의 변명은 존재하지 않습니다."));
+	}
 }

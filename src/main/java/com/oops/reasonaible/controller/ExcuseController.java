@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oops.reasonaible.service.ExcuseService;
@@ -33,11 +34,18 @@ public class ExcuseController {
 	}
 
 	@GetMapping("")
-	public ResponseEntity<ApiResponse<List<ExcuseResponse>>> getExcuse() {
+	public ResponseEntity<ApiResponse<List<ExcuseResponse>>> getExcuses() {
 		List<ExcuseResponse> allExcuses = excuseService.getAllExcuses();
 		return ResponseEntity.status(HttpStatus.OK).body(
 			ApiResponse.of(200, allExcuses));
-		// return ResponseEntity.status(HttpStatus.OK).body(allExcuses);
+	}
+
+	@GetMapping("/{excuse_id}")
+	public ResponseEntity<ApiResponse<ExcuseResponse>> getExcuse(
+		@RequestParam Long excuseId) {
+		ExcuseResponse excuse = excuseService.getExcuse(excuseId);
+		return ResponseEntity.status(HttpStatus.OK).body(
+			ApiResponse.of(200, excuse));
 	}
 
 }
