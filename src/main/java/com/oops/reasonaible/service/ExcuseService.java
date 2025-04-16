@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.oops.reasonaible.entity.Excuse;
+import com.oops.reasonaible.exception.CommonException;
+import com.oops.reasonaible.exception.ErrorCode;
 import com.oops.reasonaible.repository.ExcuseRepository;
 import com.oops.reasonaible.service.dto.ExcuseRequest;
 import com.oops.reasonaible.service.dto.ExcuseResponse;
@@ -36,6 +38,6 @@ public class ExcuseService {
 	public ExcuseResponse getExcuse(Long excuseId) {
 		return excuseRepository.findById(excuseId)
 			.map(ExcuseResponse::from)
-			.orElseThrow(() -> new IllegalArgumentException("해당 ID의 변명은 존재하지 않습니다."));
+			.orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND));
 	}
 }
