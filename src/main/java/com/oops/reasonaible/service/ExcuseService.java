@@ -40,4 +40,8 @@ public class ExcuseService {
 			.map(ExcuseResponse::from)
 			.orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND));
 	}
+
+	public void deleteExcuse(Long excuseId) {
+		excuseRepository.deleteById(excuseId);
+	}
 }

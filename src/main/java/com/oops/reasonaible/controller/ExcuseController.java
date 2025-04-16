@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,6 +47,14 @@ public class ExcuseController {
 		ExcuseResponse excuse = excuseService.getExcuse(excuseId);
 		return ResponseEntity.status(HttpStatus.OK).body(
 			ApiResponse.of(200, excuse));
+	}
+
+	@DeleteMapping("/{excuse_id}")
+	public ResponseEntity<ApiResponse> deleteExcuse(
+		@RequestParam Long excuseId) {
+		excuseService.deleteExcuse(excuseId);
+		return ResponseEntity.status(HttpStatus.OK).body(
+			ApiResponse.of(200, "삭제 완료"));
 	}
 
 }
