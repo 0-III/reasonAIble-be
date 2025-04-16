@@ -37,4 +37,16 @@ public class Excuse {
 	@LastModifiedDate
 	@Column(nullable = false)
 	private LocalDateTime updatedAt;
+
+	protected Excuse() {
+	}
+
+	private Excuse(String excuse, String modifiedExcuse) {
+		this.excuse = excuse;
+		this.modifiedExcuse = modifiedExcuse;
+	}
+
+	public static Excuse of(String excuse, String modifiedExcuse) {
+		return new Excuse(excuse, modifiedExcuse);
+	}
 }
