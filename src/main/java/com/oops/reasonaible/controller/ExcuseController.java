@@ -1,7 +1,10 @@
 package com.oops.reasonaible.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +30,14 @@ public class ExcuseController {
 		ExcuseResponse excuse = excuseService.createExcuse(excuseRequest);
 		return ResponseEntity.status(HttpStatus.CREATED).body(
 			ApiResponse.of(201, excuse));
+	}
+
+	@GetMapping("")
+	public ResponseEntity<ApiResponse<List<ExcuseResponse>>> getExcuse() {
+		List<ExcuseResponse> allExcuses = excuseService.getAllExcuses();
+		return ResponseEntity.status(HttpStatus.OK).body(
+			ApiResponse.of(200, allExcuses));
+		// return ResponseEntity.status(HttpStatus.OK).body(allExcuses);
 	}
 
 }

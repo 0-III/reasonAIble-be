@@ -1,5 +1,7 @@
 package com.oops.reasonaible.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.oops.reasonaible.entity.Excuse;
@@ -24,4 +26,10 @@ public class ExcuseService {
 		// 		excuse.getCreatedAt(), excuse.getUpdatedAt()));
 	}
 
+	public List<ExcuseResponse> getAllExcuses() {
+		return excuseRepository.findAll()
+			.stream()
+			.map(ExcuseResponse::from)
+			.toList();
+	}
 }
