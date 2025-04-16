@@ -12,12 +12,12 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(CommonException.class)
 	public ResponseEntity<ExceptionResponse> handleException(CommonException e) {
 		ExceptionResponse response = ExceptionResponse.of(e.getStatusCode(), e.getMessage());
-		return sendErrorResponse(e.getStatusCode(), e.getMessage());
+		return sendErrorResponse(response);
 	}
 
-	private ResponseEntity<ExceptionResponse> sendErrorResponse(Integer statusCode, String message) {
+	private ResponseEntity<ExceptionResponse> sendErrorResponse(ExceptionResponse response) {
 		return ResponseEntity
-			.status(statusCode)
-			.body(ExceptionResponse.of(statusCode, message));
+			.status(response.code())
+			.body(ExceptionResponse.of(response.code(), response.message()));
 	}
 }
