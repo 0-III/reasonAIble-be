@@ -5,7 +5,7 @@ spring:
   application:
     name: reasonAIble
   profiles:
-#    activate: local
+    #    activate: local
     default: local
 
   datasource:
@@ -13,3 +13,7 @@ spring:
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+claude-api:
+  api-key: ${CLAUDE_API_KEY}
+  base-url: ${CLAUDE_API_BASE_URL}
