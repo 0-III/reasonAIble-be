@@ -1,38 +1,39 @@
 package com.oops.reasonaible.service.dto;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import lombok.Data;
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public record AnthropicResponse(
+	String id,
+	String type,
+	String role,
+	// List<Content> content,
+	String content,
+	String model,
+	String stopReason,
+	// String stopSequence,
+	Usage usage
+) {
 
-@Data
-public class AnthropicResponse {
-	private List<Content> content;
-	private String id;
-	private String model;
-	private String role;
-	private String stopReason;
-	private String stopSequence;
-	private String type;
-	private Usage usage;
+	// public record Content(
+	// 	String text,
+	// 	String type
+	// ) {
+	// }
 
-	@Data
-	public static class Content {
-		private String text;
-		private String type;
+	public record Usage(
+		int inputTokens,
+		int outputTokens
+	) {
 	}
 
-	@Data
-	public static class Usage {
-		private int inputTokens;
-		private int outputTokens;
-	}
-
-	public static AnthropicResponse getClaudeError(String errorMessage) {
-		AnthropicResponse anthropicResponse = new AnthropicResponse();
-		Content content = new Content();
-		content.setText(errorMessage);
-		anthropicResponse.setType("error");
-		anthropicResponse.setContent(List.of(content));
-		return anthropicResponse;
-	}
+	// public static AnthropicResponse getClaudeError(String errorMessage) {
+	// 	AnthropicResponse anthropicResponse = new AnthropicResponse();
+	// 	Content content = new Content();
+	// 	content.setText(errorMessage);
+	// 	anthropicResponse.setType("error");
+	// 	anthropicResponse.setContent(List.of(content));
+	// 	return anthropicResponse;
+	// }
 }

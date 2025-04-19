@@ -2,17 +2,19 @@ package com.oops.reasonaible.service.dto;
 
 import java.util.List;
 
-import lombok.Data;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-@Data
-public class AnthropicRequest {
-	private String model;
-	private List<Message> messages;
-	private int maxTokens;
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public record AnthropicRequest(
+	String model,
+	List<Message> messages,
+	int maxTokens
+) {
 
-	@Data
-	public static class Message {
-		private String role;
-		private String content;
+	public record Message(
+		String role,
+		String content
+	) {
 	}
 }
