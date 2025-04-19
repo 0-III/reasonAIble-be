@@ -29,9 +29,6 @@ public class AnthropicConfig {
 	@Value("${anthropic.timeout}")
 	private int timeout;
 
-	// @Value("${anthropic.model}")
-	// private String model;
-
 	@Bean
 	public WebClient anthropicWebClient() {
 

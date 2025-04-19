@@ -32,9 +32,6 @@ public class ExcuseService {
 		Excuse excuse = excuseCreateRequest.toEntity();
 		excuseRepository.save(excuse);
 		return ExcuseCreateUpdateResponse.of(excuse.getId(), excuse.getSituation(), excuse.getExcuse());
-		// return excuseRepository.save(excuseRequest.toEntity())
-		// 	.map(excuse -> ExcuseResponse.of(excuse.getId(), excuse.getExcuse(), excuse.getModifiedExcuse(),
-		// 		excuse.getCreatedAt(), excuse.getUpdatedAt()));
 	}
 
 	public List<ExcuseGetResponse> getAllExcuses() {
@@ -65,21 +62,12 @@ public class ExcuseService {
 
 	@Transactional
 	public Mono<ExcuseCreateUpdateResponse> generateExcuse(String situation) {
-		// log.debug("situation: {}", request.messages().get(0).content());
 		log.info("situation: {}", situation);
 		return anthropicService.generateExcuse(situation)
 			.map(excuse -> {
-				log.info("situation2: {}", situation);
 				Excuse savedExcuse = excuseRepository.save(
 					Excuse.of(situation, excuse.content().get(0).text()));
 				return ExcuseCreateUpdateResponse.from(savedExcuse);
 			});
-		// return anthropicService.generateExcuse(request)
-		// 	.map(excuse -> ExcuseCreateUpdateResponse.of(null, request.message().content(), excuse))
-		// 	.flatMap(excuseResponse -> {
-		// 		Excuse excuse = Excuse.of(excuseResponse.situation(), excuseResponse.excuse());
-		// 		return excuseRepository.save(excuse)
-		// 			.map(savedExcuse -> ExcuseCreateUpdateResponse.of(savedExcuse.getId(), savedExcuse.getSituation(), savedExcuse.getExcuse()));
-		// 	});
 	}
 }

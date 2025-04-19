@@ -9,13 +9,12 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 public record AnthropicRequest(
 	String model,
 	List<Message> messages,
-	// Double temperature,
-	Integer max_tokens
+	Integer maxTokens,
+	Double temperature
 ) {
 
-	public static AnthropicRequest create(String model, Message message) {
-		return new AnthropicRequest(model, List.of(Message.user(message.content())), 100);
-		// return new AnthropicRequest("claude-3-haiku-20240307", message, 0.7, 1000);
+	public static AnthropicRequest create(String model, Message message, Integer maxTokens, Double temperature) {
+		return new AnthropicRequest(model, List.of(Message.user(message.content())), maxTokens, temperature);
 	}
 
 	public record Message(
