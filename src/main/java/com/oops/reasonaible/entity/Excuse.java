@@ -1,53 +1,40 @@
 package com.oops.reasonaible.entity;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
-@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Excuse {
+public class Excuse extends BaseEntity {
 
 	@Id
-	@GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(columnDefinition = "TEXT")
+	private String situation;
+
+	@Column(nullable = false, columnDefinition = "TEXT")
 	private String excuse;
 
+	@Column(columnDefinition = "TEXT")
 	private String modifiedExcuse;
-
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	@CreatedDate
-	@Column(nullable = false, updatable = false)
-	private LocalDateTime createdAt;
-
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	@LastModifiedDate
-	@Column(nullable = false)
-	private LocalDateTime updatedAt;
 
 	protected Excuse() {
 	}
 
-	private Excuse(String excuse, String modifiedExcuse) {
+	private Excuse(String situation, String excuse, String modifiedExcuse) {
+		this.situation = situation;
 		this.excuse = excuse;
 		this.modifiedExcuse = modifiedExcuse;
 	}
 
-	public static Excuse of(String excuse) {
-		return new Excuse(excuse, excuse);
+	public static Excuse of(String situation, String excuse) {
+		return new Excuse(situation, excuse, excuse);
 	}
 
 	public void update(String modifiedExcuse) {

@@ -5,7 +5,7 @@ spring:
   application:
     name: reasonAIble
   profiles:
-#    activate: local
+    #    activate: local
     default: local
 
   datasource:
@@ -13,3 +13,12 @@ spring:
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+anthropic:
+  key: ${ANTHROPIC_API_KEY}
+  base-url: ${ANTHROPIC_API_BASE_URL}
+  version: ${ANTHROPIC_API_VERSION}
+  timeout: ${ANTHROPIC_API_TIMEOUT}
+  model: ${ANTHROPIC_API_MODEL}
+  max-tokens: ${ANTHROPIC_API_MAX_TOKENS}
+  temperature: ${ANTHROPIC_API_TEMPERATURE}
