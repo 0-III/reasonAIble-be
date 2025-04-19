@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ClaudeRequest {
+public class AnthropicRequest {
 	private String model;
 	private List<Message> messages;
 	private int maxTokens;

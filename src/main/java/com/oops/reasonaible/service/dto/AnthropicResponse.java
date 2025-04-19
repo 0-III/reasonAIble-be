@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ClaudeResponse {
+public class AnthropicResponse {
 	private List<Content> content;
 	private String id;
 	private String model;
@@ -27,12 +27,12 @@ public class ClaudeResponse {
 		private int outputTokens;
 	}
 
-	public static ClaudeResponse getClaudeError(String errorMessage) {
-		ClaudeResponse claudeResponse = new ClaudeResponse();
+	public static AnthropicResponse getClaudeError(String errorMessage) {
+		AnthropicResponse anthropicResponse = new AnthropicResponse();
 		Content content = new Content();
 		content.setText(errorMessage);
-		claudeResponse.setType("error");
-		claudeResponse.setContent(List.of(content));
-		return claudeResponse;
+		anthropicResponse.setType("error");
+		anthropicResponse.setContent(List.of(content));
+		return anthropicResponse;
 	}
 }
