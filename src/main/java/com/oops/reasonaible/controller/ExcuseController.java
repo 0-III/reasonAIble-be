@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/excuse")
+@RequestMapping("/api/v1/excuses")
 @RestController
 public class ExcuseController {
 

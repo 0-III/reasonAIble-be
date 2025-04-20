@@ -16,13 +16,13 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/anthropic")
+@RequestMapping("/api/v1/excuses")
 @RestController
 public class AnthropicController {
 
 	private final ExcuseService excuseService;
 
-	@PostMapping("")
+	@PostMapping("/ai")
 	public Mono<ResponseEntity<ApiResponse<ExcuseCreateUpdateResponse>>> generateExcuse(
 		@RequestBody ExcuseGenerationRequest request
 	) {
