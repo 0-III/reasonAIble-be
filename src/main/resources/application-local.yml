@@ -16,9 +16,9 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
 
-#  cloud:
-#    vault:
-#      enabled: false
+  cloud:
+    vault:
+      enabled: false
 
 logging:
   level:

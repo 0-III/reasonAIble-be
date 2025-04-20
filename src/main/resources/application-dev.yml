@@ -5,8 +5,8 @@ spring:
   config:
     activate:
       on-profile: dev
-    import:
-      - optional:file:.env[.properties]
+  import:
+    - vault://
 
   jpa:
     hibernate:
@@ -16,25 +16,27 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
 
-#  cloud:
-#    vault:
-#      uri: ${VAULT_URI}
-#      authentication: ${VAULT_AUTHENTICATION}
-#      token: ${VAULT_TOKEN}
-#      kv:
-#        enabled: true
-#        backend: ${VAULT_BACKEND}
-#        application-name: boilerplate
-#        profiles: ${spring.profiles.active}
-#        kv-version: 2
+  cloud:
+    vault:
+      uri: ${VAULT_URI}
+      authentication: ${VAULT_AUTHENTICATION}
+      token: ${VAULT_TOKEN}
+      kv:
+        enabled: true
+        backend: ${VAULT_BACKEND}
+        application-name: reasonaible
+        profiles: ${spring.profiles.active}
+        #        kv-version: 2
 #        default-context: ${VAULT_DEFAULT_CONTEXT}
 #        profile-separator: "/"
 
 logging:
   level:
+    #    org.springframework: DEBUG
     com.example.boilerplate: debug
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
+    org.springframework.cloud.vault: DEBUG
 
 springdoc:
   swagger-ui:

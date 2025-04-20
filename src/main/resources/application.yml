@@ -5,8 +5,8 @@ spring:
   application:
     name: reasonAIble
   profiles:
-    #    activate: local
-    default: local
+    active: local
+  #    default: local
 
   datasource:
     url: ${MYSQL_URL}
@@ -18,7 +18,16 @@ anthropic:
   key: ${ANTHROPIC_API_KEY}
   base-url: ${ANTHROPIC_API_BASE_URL}
   version: ${ANTHROPIC_API_VERSION}
-  timeout: ${ANTHROPIC_API_TIMEOUT}
   model: ${ANTHROPIC_API_MODEL}
-  max-tokens: ${ANTHROPIC_API_MAX_TOKENS}
-  temperature: ${ANTHROPIC_API_TEMPERATURE}
+  timeout: 60
+  max-tokens: 150
+  temperature: 0.5
+#  timeout: ${ANTHROPIC_API_TIMEOUT}
+#  max-tokens: ${ANTHROPIC_API_MAX_TOKENS}
+#  temperature: ${ANTHROPIC_API_TEMPERATURE}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
