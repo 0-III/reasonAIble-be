@@ -8,8 +8,8 @@ jobs:
   build:
     env:
       MYSQL_URL: jdbc:mysql://localhost:3306/db?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user123!!!
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root123!!!
     name: Build
     runs-on: ubuntu-latest
     services:
@@ -18,8 +18,8 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root123!!!
           MYSQL_DATABASE: db
-          MYSQL_USER: user
-          MYSQL_PASSWORD: user123!!!
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root123!!!
         ports:
           - 3306:3306
         options: >-
