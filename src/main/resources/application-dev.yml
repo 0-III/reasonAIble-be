@@ -5,8 +5,9 @@ spring:
   config:
     activate:
       on-profile: dev
-  import:
-    - vault://
+    import:
+      - vault://
+  #      - optional:file:.env[.properties]
 
   jpa:
     hibernate:
@@ -26,7 +27,7 @@ spring:
         backend: ${VAULT_BACKEND}
         application-name: reasonaible
         profiles: ${spring.profiles.active}
-        #        kv-version: 2
+#        kv-version: 2
 #        default-context: ${VAULT_DEFAULT_CONTEXT}
 #        profile-separator: "/"
 

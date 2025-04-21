@@ -2,7 +2,7 @@ package com.oops.reasonaible.config;
 
 import java.time.Duration;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -11,23 +11,41 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import io.netty.channel.ChannelOption;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
 
+@RequiredArgsConstructor
+@EnableConfigurationProperties(AnthropicProperties.class)
 @Configuration
 public class AnthropicConfig {
 
-	@Value("${anthropic.key}")
+	private final AnthropicProperties anthropicProperties;
+
 	private String apiKey;
-
-	@Value("${anthropic.base-url}")
 	private String baseUrl;
-
-	@Value("${anthropic.version}")
 	private String apiVersion;
-
-	@Value("${anthropic.timeout}")
 	private int timeout;
+
+	@PostConstruct
+	public void init() {
+		this.apiKey = anthropicProperties.getKey();
+		this.baseUrl = anthropicProperties.getBaseUrl();
+		this.apiVersion = anthropicProperties.getVersion();
+		this.timeout = anthropicProperties.getTimeout();
+	}
+	// @Value("${anthropic.key}")
+	// private String apiKey;
+	//
+	// @Value("${anthropic.base-url}")
+	// private String baseUrl;
+	//
+	// @Value("${anthropic.version}")
+	// private String apiVersion;
+	//
+	// @Value("${anthropic.timeout}")
+	// private int timeout;
 
 	@Bean
 	public WebClient anthropicWebClient() {

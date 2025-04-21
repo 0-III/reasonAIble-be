@@ -1,34 +1,46 @@
 package com.oops.reasonaible.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import com.oops.reasonaible.config.AnthropicProperties;
 import com.oops.reasonaible.service.dto.AnthropicRequest;
 import com.oops.reasonaible.service.dto.AnthropicResponse;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Slf4j
 @RequiredArgsConstructor
+@EnableConfigurationProperties(AnthropicProperties.class)
 @Service
 public class AnthropicService {
 
 	@Qualifier("anthropicWebClient")
 	private final WebClient webClient;
 
-	@Value("${anthropic.model}")
+	private final AnthropicProperties anthropicProperties;
+
+	// @Value("${anthropic.model}")
 	private String model;
 
-	@Value("${anthropic.max-tokens}")
+	// @Value("${anthropic.max-tokens}")
 	private Integer maxTokens;
 
-	@Value("${anthropic.temperature}")
+	// @Value("${anthropic.temperature}")
 	private Double temperature;
+
+	@PostConstruct
+	public void init() {
+		this.model = anthropicProperties.getModel();
+		this.maxTokens = anthropicProperties.getMaxTokens();
+		this.temperature = anthropicProperties.getTemperature();
+	}
 
 	public Mono<AnthropicResponse> generateExcuse(String content) {
 		AnthropicRequest request = AnthropicRequest.create(
