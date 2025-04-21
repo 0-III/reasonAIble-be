@@ -32,4 +32,6 @@ management:
       exposure:
         include: "*"
 
-client.url: ${CLIENT_URL}
+client:
+  url: ${CLIENT_URL}
+  url2: ${CLIENT_URL2}
