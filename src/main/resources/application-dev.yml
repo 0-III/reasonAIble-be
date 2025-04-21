@@ -42,3 +42,5 @@ logging:
 springdoc:
   swagger-ui:
     path: /swagger-ui
+
+client.url: ${CLIENT_URL}
