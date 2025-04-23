@@ -1,4 +1,4 @@
-package com.oops.reasonaible.common.entity;
+package com.oops.reasonaible.core.entity;
 
 import java.time.LocalDateTime;
 

@@ -9,8 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -29,7 +31,7 @@ public class Member {
 	@Column(nullable = false, unique = true)
 	private String nickname;
 
-	public static Member of(String email, String password, String nickname) {
+	public static Member create(String email, String password, String nickname) {
 		return new Member(
 			null,
 			email,

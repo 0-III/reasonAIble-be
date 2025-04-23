@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import com.oops.reasonaible.config.AnthropicProperties;
+import com.oops.reasonaible.core.config.AnthropicProperties;
 import com.oops.reasonaible.excuse.service.dto.AnthropicRequest;
 import com.oops.reasonaible.excuse.service.dto.AnthropicResponse;
 

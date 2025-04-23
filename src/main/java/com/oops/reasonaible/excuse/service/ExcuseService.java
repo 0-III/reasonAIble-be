@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.oops.reasonaible.exception.CommonException;
-import com.oops.reasonaible.exception.ErrorCode;
+import com.oops.reasonaible.core.exception.CommonException;
+import com.oops.reasonaible.core.exception.ErrorCode;
 import com.oops.reasonaible.excuse.entity.Excuse;
 import com.oops.reasonaible.excuse.repository.ExcuseRepository;
 import com.oops.reasonaible.excuse.service.dto.ExcuseCreateRequest;
