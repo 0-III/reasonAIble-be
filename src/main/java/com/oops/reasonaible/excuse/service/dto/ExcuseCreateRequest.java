@@ -1,6 +1,6 @@
-package com.oops.reasonaible.service.dto;
+package com.oops.reasonaible.excuse.service.dto;
 
-import com.oops.reasonaible.entity.Excuse;
+import com.oops.reasonaible.excuse.entity.Excuse;
 
 import jakarta.validation.constraints.NotNull;
 

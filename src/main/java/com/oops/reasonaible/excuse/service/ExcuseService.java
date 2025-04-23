@@ -1,18 +1,18 @@
-package com.oops.reasonaible.service;
+package com.oops.reasonaible.excuse.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.oops.reasonaible.entity.Excuse;
 import com.oops.reasonaible.exception.CommonException;
 import com.oops.reasonaible.exception.ErrorCode;
-import com.oops.reasonaible.repository.ExcuseRepository;
-import com.oops.reasonaible.service.dto.ExcuseCreateRequest;
-import com.oops.reasonaible.service.dto.ExcuseCreateUpdateResponse;
-import com.oops.reasonaible.service.dto.ExcuseGetResponse;
-import com.oops.reasonaible.service.dto.ExcuseUpdateRequest;
+import com.oops.reasonaible.excuse.entity.Excuse;
+import com.oops.reasonaible.excuse.repository.ExcuseRepository;
+import com.oops.reasonaible.excuse.service.dto.ExcuseCreateRequest;
+import com.oops.reasonaible.excuse.service.dto.ExcuseCreateUpdateResponse;
+import com.oops.reasonaible.excuse.service.dto.ExcuseGetResponse;
+import com.oops.reasonaible.excuse.service.dto.ExcuseUpdateRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

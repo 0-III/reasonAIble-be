@@ -1,4 +1,4 @@
-package com.oops.reasonaible.service.dto;
+package com.oops.reasonaible.common.dto;
 
 public record ExceptionResponse(
 	Integer code,

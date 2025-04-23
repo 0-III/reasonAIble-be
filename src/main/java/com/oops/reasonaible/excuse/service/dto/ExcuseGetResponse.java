@@ -1,13 +1,13 @@
-package com.oops.reasonaible.service.dto;
+package com.oops.reasonaible.excuse.service.dto;
 
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.oops.reasonaible.entity.Excuse;
+import com.oops.reasonaible.excuse.entity.Excuse;
 
 /**
- * DTO for {@link com.oops.reasonaible.entity.Excuse}
+ * DTO for {@link Excuse}
  */
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record ExcuseGetResponse(Long id, String situation, String excuse, String modifiedExcuse,
