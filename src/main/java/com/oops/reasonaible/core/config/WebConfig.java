@@ -1,4 +1,4 @@
-package com.oops.reasonaible.config;
+package com.oops.reasonaible.core.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

@@ -1,10 +1,10 @@
-package com.oops.reasonaible.exception;
+package com.oops.reasonaible.core.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.oops.reasonaible.common.dto.ExceptionResponse;
+import com.oops.reasonaible.core.dto.ExceptionResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

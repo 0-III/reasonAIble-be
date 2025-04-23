@@ -1,4 +1,4 @@
-package com.oops.reasonaible.exception;
+package com.oops.reasonaible.core.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
