@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record AnthropicResponse(
+public record AIResponse(
 	// String id,
 	// String type,
 	// String role,
@@ -30,7 +30,7 @@ public record AnthropicResponse(
 	// ) {
 	// }
 
-	public static AnthropicResponse of(List<Content> contents) {
-		return new AnthropicResponse(contents);
+	public static AIResponse of(List<Content> contents) {
+		return new AIResponse(contents);
 	}
 }

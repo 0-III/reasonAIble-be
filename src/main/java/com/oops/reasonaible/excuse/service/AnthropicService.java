@@ -7,8 +7,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.oops.reasonaible.core.config.AnthropicProperties;
+import com.oops.reasonaible.excuse.service.dto.AIResponse;
 import com.oops.reasonaible.excuse.service.dto.AnthropicRequest;
-import com.oops.reasonaible.excuse.service.dto.AnthropicResponse;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AnthropicProperties.class)
 @Service
-public class AnthropicService {
+public class AnthropicService implements AIService {
 
 	@Qualifier("anthropicWebClient")
 	private final WebClient webClient;
@@ -42,7 +42,8 @@ public class AnthropicService {
 		this.temperature = anthropicProperties.getTemperature();
 	}
 
-	public Mono<AnthropicResponse> generateExcuse(String content) {
+	@Override
+	public Mono<AIResponse> generateExcuse(String content) {
 		AnthropicRequest request = AnthropicRequest.create(
 			model, AnthropicRequest.Message.user("다음 상황에 대한 변명을 상대방이 납득할만하게 어떻게 말할지 사족은 빼고 알려주세요: " + content),
 			maxTokens, temperature);
@@ -50,7 +51,7 @@ public class AnthropicService {
 			.uri("/messages")
 			.bodyValue(request)
 			.retrieve()
-			.bodyToMono(AnthropicResponse.class)
+			.bodyToMono(AIResponse.class)
 			.doOnError(WebClientResponseException.class, e -> log.error("Error: {}", e.getResponseBodyAsString()))
 			;
 	}
