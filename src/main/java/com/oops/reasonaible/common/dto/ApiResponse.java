@@ -1,4 +1,4 @@
-package com.oops.reasonaible.service.dto;
+package com.oops.reasonaible.common.dto;
 
 import io.micrometer.common.lang.Nullable;
 

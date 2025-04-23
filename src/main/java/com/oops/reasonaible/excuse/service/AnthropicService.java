@@ -1,4 +1,4 @@
-package com.oops.reasonaible.service;
+package com.oops.reasonaible.excuse.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -7,8 +7,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.oops.reasonaible.config.AnthropicProperties;
-import com.oops.reasonaible.service.dto.AnthropicRequest;
-import com.oops.reasonaible.service.dto.AnthropicResponse;
+import com.oops.reasonaible.excuse.service.dto.AnthropicRequest;
+import com.oops.reasonaible.excuse.service.dto.AnthropicResponse;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

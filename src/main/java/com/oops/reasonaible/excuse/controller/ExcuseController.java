@@ -1,4 +1,4 @@
-package com.oops.reasonaible.controller;
+package com.oops.reasonaible.excuse.controller;
 
 import java.util.List;
 
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oops.reasonaible.service.ExcuseService;
-import com.oops.reasonaible.service.dto.ApiResponse;
-import com.oops.reasonaible.service.dto.ExcuseCreateRequest;
-import com.oops.reasonaible.service.dto.ExcuseCreateUpdateResponse;
-import com.oops.reasonaible.service.dto.ExcuseGetResponse;
-import com.oops.reasonaible.service.dto.ExcuseUpdateRequest;
+import com.oops.reasonaible.common.dto.ApiResponse;
+import com.oops.reasonaible.excuse.service.ExcuseService;
+import com.oops.reasonaible.excuse.service.dto.ExcuseCreateRequest;
+import com.oops.reasonaible.excuse.service.dto.ExcuseCreateUpdateResponse;
+import com.oops.reasonaible.excuse.service.dto.ExcuseGetResponse;
+import com.oops.reasonaible.excuse.service.dto.ExcuseUpdateRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,6 @@
-package com.oops.reasonaible.entity;
+package com.oops.reasonaible.excuse.entity;
+
+import com.oops.reasonaible.common.entity.BaseEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.oops.reasonaible.service.dto;
+package com.oops.reasonaible.excuse.service.dto;
 
 import java.util.List;
 

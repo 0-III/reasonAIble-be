@@ -1,4 +1,4 @@
-package com.oops.reasonaible.controller;
+package com.oops.reasonaible.excuse.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oops.reasonaible.service.ExcuseService;
-import com.oops.reasonaible.service.dto.ApiResponse;
-import com.oops.reasonaible.service.dto.ExcuseCreateUpdateResponse;
-import com.oops.reasonaible.service.dto.ExcuseGenerationRequest;
+import com.oops.reasonaible.common.dto.ApiResponse;
+import com.oops.reasonaible.excuse.service.ExcuseService;
+import com.oops.reasonaible.excuse.service.dto.ExcuseCreateUpdateResponse;
+import com.oops.reasonaible.excuse.service.dto.ExcuseGenerationRequest;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;

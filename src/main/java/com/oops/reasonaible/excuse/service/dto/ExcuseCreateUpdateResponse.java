@@ -1,9 +1,9 @@
-package com.oops.reasonaible.service.dto;
+package com.oops.reasonaible.excuse.service.dto;
 
-import com.oops.reasonaible.entity.Excuse;
+import com.oops.reasonaible.excuse.entity.Excuse;
 
 /**
- * DTO for {@link com.oops.reasonaible.entity.Excuse}
+ * DTO for {@link Excuse}
  */
 public record ExcuseCreateUpdateResponse(Long id, String situation, String excuse) {
 
