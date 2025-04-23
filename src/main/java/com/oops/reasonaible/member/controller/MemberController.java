@@ -2,6 +2,8 @@ package com.oops.reasonaible.member.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,13 @@ public class MemberController {
 	private final MemberService memberService;
 
 	@PostMapping("")
-	public ResponseEntity<ApiResponse<RegisterResponse>> register(@RequestBody @Valid RegisterRequest request) {
+	public ResponseEntity<ApiResponse<RegisterResponse>> register(
+		@RequestBody @Valid RegisterRequest request,
+		BindingResult bindingResult
+	) throws BindException {
+		if (bindingResult.hasErrors()) {
+			throw new BindException(bindingResult);
+		}
 		RegisterResponse response = memberService.register(request);
 		return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK.value(), response));
 	}
