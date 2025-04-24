@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import com.oops.reasonaible.core.config.AnthropicProperties;
+import com.oops.reasonaible.core.config.KnlProperties;
 import com.oops.reasonaible.excuse.service.dto.AIResponse;
 import com.oops.reasonaible.excuse.service.dto.AnthropicRequest;
 
@@ -16,14 +16,14 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @RequiredArgsConstructor
-@EnableConfigurationProperties(AnthropicProperties.class)
+@EnableConfigurationProperties(KnlProperties.class)
 @Service
-public class AnthropicService implements AIService {
+public class KnlService implements AIService {
 
-	// @Qualifier("anthropicWebClient")
-	private final WebClient anthropicWebClient;
+	// @Qualifier("knlWebClient")
+	private final WebClient knlWebClient;
 
-	private final AnthropicProperties anthropicProperties;
+	private final KnlProperties knlProperties;
 
 	// @Value("${anthropic.model}")
 	private String model;
@@ -36,17 +36,19 @@ public class AnthropicService implements AIService {
 
 	@PostConstruct
 	public void init() {
-		this.model = anthropicProperties.getModel();
-		this.maxTokens = anthropicProperties.getMaxTokens();
-		this.temperature = anthropicProperties.getTemperature();
+		this.model = knlProperties.getModel();
+		this.maxTokens = knlProperties.getMaxTokens();
+		this.temperature = knlProperties.getTemperature();
 	}
 
 	@Override
 	public Mono<AIResponse> generateExcuse(String content) {
+		// String prompt = "다음 상황에 대한 변명을 상대방이 납득할만하게 어떻게 말할지 사족은 빼고 알려주세요: ";
+		String prompt = "다음 상황에 대한 변명 만들어주세요. 답변은 사족없이 변명으로 쓸 말만 써주세요. 말투는 친구한테 하는 말투로 써주세요.";
 		AnthropicRequest request = AnthropicRequest.create(
-			model, AnthropicRequest.Message.user("다음 상황에 대한 변명을 상대방이 납득할만하게 어떻게 말할지 사족은 빼고 알려주세요: " + content),
+			model, AnthropicRequest.Message.user(prompt + content),
 			maxTokens, temperature);
-		return anthropicWebClient.post()
+		return knlWebClient.post()
 			.uri("/messages")
 			.bodyValue(request)
 			.retrieve()

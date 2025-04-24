@@ -26,6 +26,14 @@ anthropic:
 #  max-tokens: ${ANTHROPIC_API_MAX_TOKENS}
 #  temperature: ${ANTHROPIC_API_TEMPERATURE}
 
+knl:
+  key: ${KNL_API_KEY}
+  base-url: ${KNL_API_BASE_URL}
+  model: ${KNL_API_MODEL}
+  timeout: 60
+  max-tokens: 150
+  temperature: 0.5
+
 management:
   endpoints:
     web:
