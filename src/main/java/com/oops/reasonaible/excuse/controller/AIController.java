@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/excuses")
 @RestController
-public class AnthropicController {
+public class AIController {
 
 	private final ExcuseService excuseService;
 
