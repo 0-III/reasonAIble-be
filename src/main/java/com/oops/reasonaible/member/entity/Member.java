@@ -4,6 +4,8 @@ import org.hibernate.annotations.ColumnDefault;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,12 +33,27 @@ public class Member {
 	@Column(nullable = false, unique = true)
 	private String nickname;
 
-	public static Member create(String email, String password, String nickname) {
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private Role role;
+
+	public static Member createUser(String email, String password, String nickname) {
 		return new Member(
 			null,
 			email,
 			password,
-			nickname
+			nickname,
+			Role.USER
+		);
+	}
+
+	public static Member createAdmin(String email, String password) {
+		return new Member(
+			null,
+			email,
+			password,
+			"admin",
+			Role.ADMIN
 		);
 	}
 }
