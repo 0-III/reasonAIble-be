@@ -35,3 +35,12 @@ management:
 client:
   url: ${CLIENT_URL}
   url2: ${CLIENT_URL2}
+
+jwt:
+  secretKey: ${JWT_SECRET}
+  access:
+    expiration: ${JWT_ACCESS_EXP_TIME}
+    header: ${JWT_ACCESS_HEADER}
+  refresh:
+    expiration: ${JWT_REFRESH_EXP_TIME}
+    header: ${JWT_REFRESH_HEADER}
