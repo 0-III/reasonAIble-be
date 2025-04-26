@@ -12,6 +12,9 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oops.reasonaible.member.jwt.JwtAuthenticationFilter;
@@ -23,6 +26,7 @@ import com.oops.reasonaible.member.login.service.CustomUserDetailsService;
 import com.oops.reasonaible.member.repository.MemberRepository;
 
 import jakarta.servlet.Filter;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
@@ -34,23 +38,46 @@ public class SecurityConfig {
 	private final CustomUserDetailsService customUserDetailsService;
 	private final ObjectMapper objectMapper;
 	private final MemberRepository memberRepository;
+	private final JwtProperties jwtProperties;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable)
 			.formLogin(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-				// .requestMatchers("/api/v1/members", "/api/v1/login").permitAll()
-				//                        .anyRequest().authenticated() // TODO: 나중에 인증 필요로 변경
-				.anyRequest().permitAll()
+					.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+					.requestMatchers("/api/v1/members", "/api/v1/members/**").permitAll()
+					.anyRequest().authenticated() // TODO: 나중에 인증 필요로 변경
+				// .anyRequest().permitAll()
 			)
 			.addFilterAfter(customAuthenticationProcessingFilter(), LogoutFilter.class)
 			.addFilterBefore(jwtAuthenticationFilter(),
 				CustomAuthenticationProcessingFilter.class
 			)
+			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+			.logout(logout -> logout.logoutUrl("/api/v1/logout")
+				.logoutSuccessHandler((request, response, authentication) -> {
+					response.setStatus(HttpServletResponse.SC_OK);
+					response.getWriter().write("{\"message\": \"Logout successful\"}");
+					response.getWriter().flush();
+				})
+			)
 		;
 		return http.build();
+	}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.addAllowedOriginPattern("*");
+		configuration.addAllowedMethod("*");
+		configuration.addAllowedHeader("*");
+		configuration.addExposedHeader(jwtProperties.getAccess().getHeader());
+		configuration.setAllowCredentials(true);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 
 	@Bean
