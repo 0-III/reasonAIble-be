@@ -35,4 +35,18 @@ public class AIController {
 			// .onErrorResume(e -> Mono.just(ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()))))
 			;
 	}
+
+	@PostMapping("/knl-ai")
+	public Mono<ResponseEntity<ApiResponse<ExcuseCreateUpdateResponse>>> generateKnlExcuse(
+		@RequestBody ExcuseGenerationRequest request
+	) {
+		return excuseService.generateKnlExcuse(request.situation())
+			.map(excuse -> {
+				ExcuseCreateUpdateResponse response = new ExcuseCreateUpdateResponse(excuse.id(), request.situation(),
+					excuse.excuse());
+				return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK.value(), response));
+			})
+			// .onErrorResume(e -> Mono.just(ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()))))
+			;
+	}
 }
