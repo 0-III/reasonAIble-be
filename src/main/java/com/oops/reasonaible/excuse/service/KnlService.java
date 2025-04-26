@@ -6,8 +6,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.oops.reasonaible.core.config.KnlProperties;
-import com.oops.reasonaible.excuse.service.dto.AIResponse;
-import com.oops.reasonaible.excuse.service.dto.AnthropicRequest;
+import com.oops.reasonaible.excuse.service.dto.KnlRequest;
+import com.oops.reasonaible.excuse.service.dto.KnlResponse;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -42,17 +42,16 @@ public class KnlService implements AIService {
 	}
 
 	@Override
-	public Mono<AIResponse> generateExcuse(String content) {
+	public Mono<KnlResponse> generateExcuse(String content) {
 		// String prompt = "다음 상황에 대한 변명을 상대방이 납득할만하게 어떻게 말할지 사족은 빼고 알려주세요: ";
 		String prompt = "다음 상황에 대한 변명 만들어주세요. 답변은 사족없이 변명으로 쓸 말만 써주세요. 말투는 친구한테 하는 말투로 써주세요.";
-		AnthropicRequest request = AnthropicRequest.create(
-			model, AnthropicRequest.Message.user(prompt + content),
+		KnlRequest request = KnlRequest.create(
+			model, KnlRequest.Message.user(prompt + content),
 			maxTokens, temperature);
 		return knlWebClient.post()
-			.uri("/messages")
 			.bodyValue(request)
 			.retrieve()
-			.bodyToMono(AIResponse.class)
+			.bodyToMono(KnlResponse.class)
 			.doOnError(WebClientResponseException.class, e -> log.error("Error: {}", e.getResponseBodyAsString()))
 			;
 	}

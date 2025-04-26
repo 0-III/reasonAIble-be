@@ -4,7 +4,7 @@ import com.oops.reasonaible.excuse.service.dto.AIResponse;
 
 import reactor.core.publisher.Mono;
 
-public interface AIService {
+public interface AIService<T extends AIResponse> {
 
-	Mono<AIResponse> generateExcuse(String content);
+	Mono<T> generateExcuse(String content);
 }

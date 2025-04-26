@@ -6,8 +6,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.oops.reasonaible.core.config.AnthropicProperties;
-import com.oops.reasonaible.excuse.service.dto.AIResponse;
 import com.oops.reasonaible.excuse.service.dto.AnthropicRequest;
+import com.oops.reasonaible.excuse.service.dto.AnthropicResponse;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class AnthropicService implements AIService {
 	}
 
 	@Override
-	public Mono<AIResponse> generateExcuse(String content) {
+	public Mono<AnthropicResponse> generateExcuse(String content) {
 		AnthropicRequest request = AnthropicRequest.create(
 			model, AnthropicRequest.Message.user("다음 상황에 대한 변명을 상대방이 납득할만하게 어떻게 말할지 사족은 빼고 알려주세요: " + content),
 			maxTokens, temperature);
@@ -50,7 +50,7 @@ public class AnthropicService implements AIService {
 			.uri("/messages")
 			.bodyValue(request)
 			.retrieve()
-			.bodyToMono(AIResponse.class)
+			.bodyToMono(AnthropicResponse.class)
 			.doOnError(WebClientResponseException.class, e -> log.error("Error: {}", e.getResponseBodyAsString()))
 			;
 	}
