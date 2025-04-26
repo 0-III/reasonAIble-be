@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/excuses")
 @RestController
-public class AnthropicController {
+public class AIController {
 
 	private final ExcuseService excuseService;
 
@@ -27,6 +27,20 @@ public class AnthropicController {
 		@RequestBody ExcuseGenerationRequest request
 	) {
 		return excuseService.generateExcuse(request.situation())
+			.map(excuse -> {
+				ExcuseCreateUpdateResponse response = new ExcuseCreateUpdateResponse(excuse.id(), request.situation(),
+					excuse.excuse());
+				return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK.value(), response));
+			})
+			// .onErrorResume(e -> Mono.just(ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()))))
+			;
+	}
+
+	@PostMapping("/knl-ai")
+	public Mono<ResponseEntity<ApiResponse<ExcuseCreateUpdateResponse>>> generateKnlExcuse(
+		@RequestBody ExcuseGenerationRequest request
+	) {
+		return excuseService.generateKnlExcuse(request.situation())
 			.map(excuse -> {
 				ExcuseCreateUpdateResponse response = new ExcuseCreateUpdateResponse(excuse.id(), request.situation(),
 					excuse.excuse());

@@ -1,6 +1,5 @@
 package com.oops.reasonaible.excuse.service;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -19,10 +18,10 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AnthropicProperties.class)
 @Service
-public class AnthropicService {
+public class AnthropicService implements AIService {
 
-	@Qualifier("anthropicWebClient")
-	private final WebClient webClient;
+	// @Qualifier("anthropicWebClient")
+	private final WebClient anthropicWebClient;
 
 	private final AnthropicProperties anthropicProperties;
 
@@ -42,11 +41,12 @@ public class AnthropicService {
 		this.temperature = anthropicProperties.getTemperature();
 	}
 
+	@Override
 	public Mono<AnthropicResponse> generateExcuse(String content) {
 		AnthropicRequest request = AnthropicRequest.create(
 			model, AnthropicRequest.Message.user("다음 상황에 대한 변명을 상대방이 납득할만하게 어떻게 말할지 사족은 빼고 알려주세요: " + content),
 			maxTokens, temperature);
-		return webClient.post()
+		return anthropicWebClient.post()
 			.uri("/messages")
 			.bodyValue(request)
 			.retrieve()
