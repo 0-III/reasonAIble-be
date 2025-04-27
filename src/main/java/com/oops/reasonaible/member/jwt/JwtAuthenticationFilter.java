@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +17,7 @@ import com.oops.reasonaible.core.dto.ExceptionResponse;
 import com.oops.reasonaible.core.exception.CommonException;
 import com.oops.reasonaible.core.exception.ErrorCode;
 import com.oops.reasonaible.member.entity.Member;
+import com.oops.reasonaible.member.login.CustomUserDetails;
 import com.oops.reasonaible.member.repository.MemberRepository;
 
 import jakarta.servlet.FilterChain;
@@ -109,13 +109,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	 * AccessToken 인증 성공 이후, 해당 객체를 SecurityContextHolder에 담아 인증 처리
 	 */
 	private void saveAuthentication(Member member) {
-		String password = member.getPassword();
-
-		UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
-			.username(member.getEmail())
-			.password(password)
-			.roles(member.getRole().name())  // TODO: 권한 설정
-			.build();
+		CustomUserDetails userDetails = CustomUserDetails.from(member);
 
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 			userDetails, null, authoritiesMapper.mapAuthorities(userDetails.getAuthorities()));
