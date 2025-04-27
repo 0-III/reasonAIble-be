@@ -61,17 +61,6 @@ public class ExcuseService {
 	}
 
 	// @Transactional
-	// public Mono<ExcuseCreateUpdateResponse> generateExcuse(String situation) {
-	// 	log.info("situation: {}", situation);
-	// 	return anthropicService.generateExcuse(situation)
-	// 		.map(excuse -> {
-	// 			Excuse savedExcuse = excuseRepository.save(
-	// 				Excuse.of(situation, excuse.content().get(0).text()));
-	// 			return ExcuseCreateUpdateResponse.from(savedExcuse);
-	// 		});
-	// }
-
-	// @Transactional
 	// public Mono<ExcuseCreateUpdateResponse> generateKnlExcuse(String situation) {
 	// 	log.info("situation: {}", situation);
 	// 	return knlService.generateExcuse(situation)
