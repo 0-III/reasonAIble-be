@@ -2,6 +2,7 @@ package com.oops.reasonaible.excuse.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import com.oops.reasonaible.excuse.service.AnthropicService;
 import com.oops.reasonaible.excuse.service.ExcuseService;
 import com.oops.reasonaible.excuse.service.dto.ExcuseCreateUpdateResponse;
 import com.oops.reasonaible.excuse.service.dto.ExcuseGenerationRequest;
+import com.oops.reasonaible.member.login.CustomUserDetails;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,10 +27,11 @@ public class AIController {
 
 	@PostMapping("/ai")
 	public ResponseEntity<ApiResponse<ExcuseCreateUpdateResponse>> generateExcuse(
-		@RequestBody ExcuseGenerationRequest request
+		@RequestBody ExcuseGenerationRequest request,
+		@AuthenticationPrincipal CustomUserDetails userDetails
 	) {
 		return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK.value(),
-			anthropicService.generateExcuse(request.situation())));
+			anthropicService.generateExcuse(request.situation(), userDetails.getMemberId())));
 	}
 
 	// @PostMapping("/knl-ai")

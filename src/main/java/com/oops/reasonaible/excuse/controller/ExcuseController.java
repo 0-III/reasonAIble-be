@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,6 +20,7 @@ import com.oops.reasonaible.excuse.service.dto.ExcuseCreateRequest;
 import com.oops.reasonaible.excuse.service.dto.ExcuseCreateUpdateResponse;
 import com.oops.reasonaible.excuse.service.dto.ExcuseGetResponse;
 import com.oops.reasonaible.excuse.service.dto.ExcuseUpdateRequest;
+import com.oops.reasonaible.member.login.CustomUserDetails;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,23 +34,31 @@ public class ExcuseController {
 
 	@PostMapping("")
 	public ResponseEntity<ApiResponse> createExcuse(
-		@RequestBody @Valid ExcuseCreateRequest excuseCreateRequest) {
-		ExcuseCreateUpdateResponse excuse = excuseService.createExcuse(excuseCreateRequest);
+		@RequestBody @Valid ExcuseCreateRequest excuseCreateRequest,
+		@AuthenticationPrincipal CustomUserDetails userDetails
+	) {
+		Long memberId = userDetails.getMemberId();
+		ExcuseCreateUpdateResponse excuse = excuseService.createExcuse(excuseCreateRequest, memberId);
 		return ResponseEntity.status(HttpStatus.CREATED).body(
 			ApiResponse.of(201, excuse));
 	}
 
 	@GetMapping("")
-	public ResponseEntity<ApiResponse<List<ExcuseGetResponse>>> getExcuses() {
-		List<ExcuseGetResponse> allExcuses = excuseService.getAllExcuses();
+	public ResponseEntity<ApiResponse<List<ExcuseGetResponse>>> getExcuses(
+		@AuthenticationPrincipal CustomUserDetails userDetails) {
+		Long memberId = userDetails.getMemberId();
+		List<ExcuseGetResponse> allExcuses = excuseService.getAllExcuses(memberId);
 		return ResponseEntity.status(HttpStatus.OK).body(
 			ApiResponse.of(200, allExcuses));
 	}
 
 	@GetMapping("/{excuseId}")
 	public ResponseEntity<ApiResponse<ExcuseGetResponse>> getExcuse(
-		@PathVariable Long excuseId) {
-		ExcuseGetResponse excuse = excuseService.getExcuse(excuseId);
+		@PathVariable Long excuseId,
+		@AuthenticationPrincipal CustomUserDetails userDetails
+	) {
+		Long memberId = userDetails.getMemberId();
+		ExcuseGetResponse excuse = excuseService.getExcuse(excuseId, memberId);
 		return ResponseEntity.status(HttpStatus.OK).body(
 			ApiResponse.of(200, excuse));
 	}
