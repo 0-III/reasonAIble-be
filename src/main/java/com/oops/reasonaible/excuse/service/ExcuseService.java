@@ -16,7 +16,6 @@ import com.oops.reasonaible.excuse.service.dto.ExcuseUpdateRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class ExcuseService {
 
 	private final AnthropicService anthropicService;
 	private final ExcuseRepository excuseRepository;
-	private final KnlService knlService;
+	// private final KnlService knlService;
 
 	@Transactional
 	public ExcuseCreateUpdateResponse createExcuse(ExcuseCreateRequest excuseCreateRequest) {
@@ -61,25 +60,25 @@ public class ExcuseService {
 		return ExcuseCreateUpdateResponse.of(excuse.getId(), excuse.getSituation(), excuse.getExcuse());
 	}
 
-	@Transactional
-	public Mono<ExcuseCreateUpdateResponse> generateExcuse(String situation) {
-		log.info("situation: {}", situation);
-		return anthropicService.generateExcuse(situation)
-			.map(excuse -> {
-				Excuse savedExcuse = excuseRepository.save(
-					Excuse.of(situation, excuse.content().get(0).text()));
-				return ExcuseCreateUpdateResponse.from(savedExcuse);
-			});
-	}
+	// @Transactional
+	// public Mono<ExcuseCreateUpdateResponse> generateExcuse(String situation) {
+	// 	log.info("situation: {}", situation);
+	// 	return anthropicService.generateExcuse(situation)
+	// 		.map(excuse -> {
+	// 			Excuse savedExcuse = excuseRepository.save(
+	// 				Excuse.of(situation, excuse.content().get(0).text()));
+	// 			return ExcuseCreateUpdateResponse.from(savedExcuse);
+	// 		});
+	// }
 
-	@Transactional
-	public Mono<ExcuseCreateUpdateResponse> generateKnlExcuse(String situation) {
-		log.info("situation: {}", situation);
-		return knlService.generateExcuse(situation)
-			.map(excuse -> {
-				Excuse savedExcuse = excuseRepository.save(
-					Excuse.of(situation, excuse.choices().get(0).message().content()));
-				return ExcuseCreateUpdateResponse.from(savedExcuse);
-			});
-	}
+	// @Transactional
+	// public Mono<ExcuseCreateUpdateResponse> generateKnlExcuse(String situation) {
+	// 	log.info("situation: {}", situation);
+	// 	return knlService.generateExcuse(situation)
+	// 		.map(excuse -> {
+	// 			Excuse savedExcuse = excuseRepository.save(
+	// 				Excuse.of(situation, excuse.choices().get(0).message().content()));
+	// 			return ExcuseCreateUpdateResponse.from(savedExcuse);
+	// 		});
+	// }
 }
