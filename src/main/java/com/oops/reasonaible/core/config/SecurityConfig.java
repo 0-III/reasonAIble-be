@@ -30,8 +30,6 @@ import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-// @EnableReactiveMethodSecurity
-// @EnableWebFluxSecurity
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
