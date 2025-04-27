@@ -1,5 +1,7 @@
 # ReasonAIble
 
+<img src="https://github.com/user-attachments/assets/3b1b39a3-773a-4064-844c-52c5028556f3" width="300"/>  
+
 [ReasonAIble 바로가기](https://reasonaible.store)
 
 ### 소개
