@@ -35,8 +35,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.cloud:spring-cloud-starter-vault-config'
+    implementation 'org.springframework.ai:spring-ai-starter-model-anthropic'
     testImplementation 'io.projectreactor:reactor-test'
-//    implementation 'org.springframework.ai:spring-ai-starter-model-anthropic'
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.96.Final:osx-aarch_64'
     // security
     implementation "org.springframework.boot:spring-boot-starter-security"

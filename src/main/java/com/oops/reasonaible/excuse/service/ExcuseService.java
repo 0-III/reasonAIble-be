@@ -13,10 +13,11 @@ import com.oops.reasonaible.excuse.service.dto.ExcuseCreateRequest;
 import com.oops.reasonaible.excuse.service.dto.ExcuseCreateUpdateResponse;
 import com.oops.reasonaible.excuse.service.dto.ExcuseGetResponse;
 import com.oops.reasonaible.excuse.service.dto.ExcuseUpdateRequest;
+import com.oops.reasonaible.member.entity.Member;
+import com.oops.reasonaible.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,26 +27,32 @@ public class ExcuseService {
 
 	private final AnthropicService anthropicService;
 	private final ExcuseRepository excuseRepository;
-	private final KnlService knlService;
+	private final MemberRepository memberRepository;
+	// private final KnlService knlService;
 
 	@Transactional
-	public ExcuseCreateUpdateResponse createExcuse(ExcuseCreateRequest excuseCreateRequest) {
-		Excuse excuse = excuseCreateRequest.toEntity();
+	public ExcuseCreateUpdateResponse createExcuse(ExcuseCreateRequest excuseCreateRequest, Long memberId) {
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
+		Excuse excuse = Excuse.of(excuseCreateRequest.situation(), excuseCreateRequest.excuse(), member);
 		excuseRepository.save(excuse);
 		return ExcuseCreateUpdateResponse.of(excuse.getId(), excuse.getSituation(), excuse.getExcuse());
 	}
 
-	public List<ExcuseGetResponse> getAllExcuses() {
-		return excuseRepository.findAll()
+	public List<ExcuseGetResponse> getAllExcuses(Long memberId) {
+		return excuseRepository.findByMemberId(memberId)
 			.stream()
 			.map(ExcuseGetResponse::from)
 			.toList();
 	}
 
-	public ExcuseGetResponse getExcuse(Long excuseId) {
-		return excuseRepository.findById(excuseId)
-			.map(ExcuseGetResponse::from)
+	public ExcuseGetResponse getExcuse(Long excuseId, Long memberId) {
+		Excuse excuse = excuseRepository.findById(excuseId)
 			.orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND));
+		if (!excuse.getMember().getId().equals(memberId)) {
+			throw new CommonException(ErrorCode.FORBIDDEN);
+		}
+		return ExcuseGetResponse.from(excuse);
 	}
 
 	@Transactional
@@ -61,25 +68,14 @@ public class ExcuseService {
 		return ExcuseCreateUpdateResponse.of(excuse.getId(), excuse.getSituation(), excuse.getExcuse());
 	}
 
-	@Transactional
-	public Mono<ExcuseCreateUpdateResponse> generateExcuse(String situation) {
-		log.info("situation: {}", situation);
-		return anthropicService.generateExcuse(situation)
-			.map(excuse -> {
-				Excuse savedExcuse = excuseRepository.save(
-					Excuse.of(situation, excuse.content().get(0).text()));
-				return ExcuseCreateUpdateResponse.from(savedExcuse);
-			});
-	}
-
-	@Transactional
-	public Mono<ExcuseCreateUpdateResponse> generateKnlExcuse(String situation) {
-		log.info("situation: {}", situation);
-		return knlService.generateExcuse(situation)
-			.map(excuse -> {
-				Excuse savedExcuse = excuseRepository.save(
-					Excuse.of(situation, excuse.choices().get(0).message().content()));
-				return ExcuseCreateUpdateResponse.from(savedExcuse);
-			});
-	}
+	// @Transactional
+	// public Mono<ExcuseCreateUpdateResponse> generateKnlExcuse(String situation) {
+	// 	log.info("situation: {}", situation);
+	// 	return knlService.generateExcuse(situation)
+	// 		.map(excuse -> {
+	// 			Excuse savedExcuse = excuseRepository.save(
+	// 				Excuse.of(situation, excuse.choices().get(0).message().content()));
+	// 			return ExcuseCreateUpdateResponse.from(savedExcuse);
+	// 		});
+	// }
 }

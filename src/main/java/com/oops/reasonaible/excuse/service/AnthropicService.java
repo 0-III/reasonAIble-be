@@ -1,18 +1,24 @@
 package com.oops.reasonaible.excuse.service;
 
+import org.springframework.ai.anthropic.AnthropicChatModel;
+import org.springframework.ai.anthropic.AnthropicChatOptions;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.oops.reasonaible.core.config.AnthropicProperties;
-import com.oops.reasonaible.excuse.service.dto.AnthropicRequest;
-import com.oops.reasonaible.excuse.service.dto.AnthropicResponse;
+import com.oops.reasonaible.core.exception.CommonException;
+import com.oops.reasonaible.core.exception.ErrorCode;
+import com.oops.reasonaible.excuse.entity.Excuse;
+import com.oops.reasonaible.excuse.repository.ExcuseRepository;
+import com.oops.reasonaible.excuse.service.dto.ExcuseCreateUpdateResponse;
+import com.oops.reasonaible.member.entity.Member;
+import com.oops.reasonaible.member.repository.MemberRepository;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Mono;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,38 +26,29 @@ import reactor.core.publisher.Mono;
 @Service
 public class AnthropicService implements AIService {
 
-	// @Qualifier("anthropicWebClient")
 	private final WebClient anthropicWebClient;
-
+	private final AnthropicChatModel chatModel;
+	private final ExcuseRepository excuseRepository;
+	private final MemberRepository memberRepository;
 	private final AnthropicProperties anthropicProperties;
 
-	// @Value("${anthropic.model}")
-	private String model;
-
-	// @Value("${anthropic.max-tokens}")
-	private Integer maxTokens;
-
-	// @Value("${anthropic.temperature}")
-	private Double temperature;
-
-	@PostConstruct
-	public void init() {
-		this.model = anthropicProperties.getModel();
-		this.maxTokens = anthropicProperties.getMaxTokens();
-		this.temperature = anthropicProperties.getTemperature();
-	}
-
+	@Transactional
 	@Override
-	public Mono<AnthropicResponse> generateExcuse(String content) {
-		AnthropicRequest request = AnthropicRequest.create(
-			model, AnthropicRequest.Message.user("다음 상황에 대한 변명을 상대방이 납득할만하게 어떻게 말할지 사족은 빼고 알려주세요: " + content),
-			maxTokens, temperature);
-		return anthropicWebClient.post()
-			.uri("/messages")
-			.bodyValue(request)
-			.retrieve()
-			.bodyToMono(AnthropicResponse.class)
-			.doOnError(WebClientResponseException.class, e -> log.error("Error: {}", e.getResponseBodyAsString()))
-			;
+	public ExcuseCreateUpdateResponse generateExcuse(String situation, Long memberId) {
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
+		Prompt prompt = new Prompt(
+			"다음 상황에 대한 변명을 상대방이 납득할만하게 어떻게 말할지 사족은 빼고 알려주세요: " + situation,
+			AnthropicChatOptions.builder()
+				.model(anthropicProperties.getModel())
+				.temperature(anthropicProperties.getTemperature())
+				.maxTokens(anthropicProperties.getMaxTokens())
+				.build()
+		);
+		String response = chatModel.call(prompt).getResult().getOutput().getText().replace("\"", "");
+		Excuse savedExcuse = excuseRepository.save(
+			Excuse.of(situation, response, member)
+		);
+		return ExcuseCreateUpdateResponse.from(savedExcuse);
 	}
 }
