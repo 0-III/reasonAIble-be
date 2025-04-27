@@ -1,21 +1,17 @@
 package com.oops.reasonaible.core.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@Setter
-// @RequiredArgsConstructor
+@RequiredArgsConstructor
 @ConfigurationProperties(prefix = "knl")
-@Configuration
 public class KnlProperties {
 
-	// private String key;
-	private String baseUrl;
-	private String model;
-	private int maxTokens;
-	private double temperature;
+	private final String baseUrl;
+	private final String model;
+	private final int maxTokens;
+	private final double temperature;
 }
