@@ -50,6 +50,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 					.requestMatchers("/api/v1/members").permitAll()
+					.requestMatchers("/api/v1/excuses/knl-ai").permitAll()
 					.anyRequest().authenticated()
 				// .anyRequest().permitAll()
 			)
