@@ -49,6 +49,7 @@ public class SecurityConfig {
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+					.requestMatchers("/actuator", "/actuator/**").permitAll()
 					.requestMatchers("/api/v1/members").permitAll()
 					// .requestMatchers("/api/v1/excuses/knl-ai").hasRole("ADMIN")
 					.requestMatchers("/api/v1/excuses/knl-ai").permitAll()

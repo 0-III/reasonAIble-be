@@ -36,7 +36,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		"/api/v1/members", List.of("POST"),
 		// "/api/v1/excuses", List.of("POST", "GET", "PATCH", "DELETE"),
 		"/swagger-ui", List.of("GET"),
-		"/v3/api-docs", List.of("GET")
+		"/v3/api-docs", List.of("GET"),
+		"/actuator", List.of("GET")
 	);
 
 	private final JwtTokenProvider jwtTokenProvider;
