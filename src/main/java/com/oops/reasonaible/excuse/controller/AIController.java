@@ -2,6 +2,7 @@ package com.oops.reasonaible.excuse.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +38,7 @@ public class AIController {
 			anthropicService.generateExcuse(request.situation(), userDetails.getMemberId())));
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/knl-ai")
 	public Mono<ResponseEntity<ApiResponse<ExcuseCreateUpdateResponse>>> generateKnlExcuse(
 		@RequestBody ExcuseGenerationRequest request,
