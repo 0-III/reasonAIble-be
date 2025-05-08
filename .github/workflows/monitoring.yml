@@ -22,8 +22,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: "monitoring/**"
-          target: "/home/${{ secrets.USERNAME }}/"
-          strip_components: 0
+          target: "/home/${{ secrets.USERNAME }}/monitoring/"
 
       - name: Deploy monitoring stack
         uses: appleboy/ssh-action@v1.0.3
