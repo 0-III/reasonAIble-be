@@ -43,6 +43,8 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     // jwt
     implementation 'com.auth0:java-jwt:4.5.0'
+    // prometheus
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
