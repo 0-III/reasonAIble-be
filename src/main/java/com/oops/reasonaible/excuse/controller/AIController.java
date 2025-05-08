@@ -37,6 +37,7 @@ public class AIController {
 			anthropicService.generateExcuse(request.situation(), userDetails.getMemberId())));
 	}
 
+	// @PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/knl-ai")
 	public Mono<ResponseEntity<ApiResponse<ExcuseCreateUpdateResponse>>> generateKnlExcuse(
 		@RequestBody ExcuseGenerationRequest request,

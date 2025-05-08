@@ -3,6 +3,11 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "develop" ]
+    paths-ignore:
+      - 'monitoring/**'
+      - 'README.md'
+      - '**/*.md'
+      - '.github/workflows/monitoring.yml'
 
 jobs:
   build:
