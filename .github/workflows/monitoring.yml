@@ -15,13 +15,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: debug monitoring files
+        run: ls -al monitoring
+
       - name: Copy monitoring files to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: "monitoring/*dev*"
+          source: |
+            monitoring/docker-compose.dev.yml
+            monitoring/prometheus-dev.yml
           target: "/home/${{ secrets.USERNAME }}/app/"
           strip_components: 0
 
