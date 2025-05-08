@@ -1,0 +1,37 @@
+name: Monitoring CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "develop" ]
+    paths:
+      - 'monitoring/**'
+      - '.github/workflows/monitoring.yml'
+
+jobs:
+  deploy-monitoring:
+    name: Deploy Monitoring
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy monitoring files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          source: "monitoring/**"
+          target: "/home/${{ secrets.USERNAME }}/app/"
+          strip_components: 0
+
+      - name: Deploy monitoring stack
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            cd /home/${{ secrets.USERNAME }}/app/monitoring
+            docker-compose -f docker-compose.dev.yml down
+            docker-compose -f docker-compose.dev.yml up -d
