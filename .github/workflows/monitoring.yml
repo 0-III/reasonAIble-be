@@ -21,7 +21,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: "monitoring/**"
+          source: "monitoring/*dev*"
           target: "/home/${{ secrets.USERNAME }}/app/"
           strip_components: 0
 
