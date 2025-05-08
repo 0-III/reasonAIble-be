@@ -21,8 +21,9 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: "monitoring/**"
-          target: "/home/${{ secrets.USERNAME }}/monitoring/"
+          source: ./monitoring/**
+          target: "/home/${{ secrets.USERNAME }}/app/"
+          overwrite: true
 
       - name: Deploy monitoring stack
         uses: appleboy/ssh-action@v1.0.3
@@ -31,6 +32,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            cd /home/${{ secrets.USERNAME }}/monitoring
+            cd /home/${{ secrets.USERNAME }}/app/monitoring
             docker-compose -f docker-compose.dev.yml down
             docker-compose -f docker-compose.dev.yml up -d
